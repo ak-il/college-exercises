@@ -1,3 +1,4 @@
+# Instructions
 How to use:
 Assuming you have python2.7 and virtualenv installed, run:
 ```
@@ -5,4 +6,53 @@ virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python 204868467.py --porta 5000 --portb 5001
+python 204868467.py --porta 5001 --portb 5000
+```
+Go to http://localhost:5000/init or http://localhost:5001/init and then send a
+message with http://localhost:5000/send_plain_message/<your-msg> or
+http://localhost:5001/send_plain_message/<your-msg>.
+
+# Example outputs:
+server 1 (console):
+```
+$ python 204868467.py --porta 5000 --portb 5001
+ * Serving Flask app "204868467" (lazy loading)
+ * Environment: production
+   WARNING: Do not use the development server in a production environment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+a: 69
+p: 193
+g: 127
+A: 154
+B: 25
+shared_key: 14
+127.0.0.1 - - [26/Dec/2018 12:01:47] "GET /exchange/2?B=25 HTTP/1.1" 200 -
+127.0.0.1 - - [26/Dec/2018 12:01:47] "GET /init HTTP/1.1" 200 -
+127.0.0.1 - - [26/Dec/2018 12:01:59] "GET /send_plain_message/hello%20eyal HTTP/1.1" 200 -
+```
+server 1 (web route: /send_plain_message/hello eyal):
+```
+decrypted ack msg: hello eyalack
+```
+
+server 2 (console):
+```
+$python 204868467.py --porta 5001 --portb 5000
+ * Serving Flask app "204868467" (lazy loading)
+ * Environment: production
+   WARNING: Do not use the development server in a production environment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://127.0.0.1:5001/ (Press CTRL+C to quit)
+a: 74
+p: 193
+g: 127
+A: 25
+B: 154
+shared_key: 14
+127.0.0.1 - - [26/Dec/2018 12:01:47] "GET /exchange/1?A=154&p=193&g=127 HTTP/1.1" 200 -
+127.0.0.1 - - [26/Dec/2018 12:01:59] "POST /receive_secure_message?enc_msg=fkbba.kwob HTTP/1.1" 200 -
+
 ```
