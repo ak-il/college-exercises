@@ -1,0 +1,11 @@
+# Instructions
+How to use:
+Assuming you have python2.7 and virtualenv installed, run:
+```
+virtualenv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python 204868467.py a b c # where a b c are integers bigger than zero
+```
+
+You can change the `.csv` file for different results.
